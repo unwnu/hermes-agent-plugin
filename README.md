@@ -28,7 +28,7 @@ You can also download the plugin ZIP from [Releases](https://github.com/unwnu/he
 
 ## Get updates
 
-The [GitHub workflow](.github/workflows/sync-upstream.yml) looks for changes at minute 17 of every hour. You can also start it from the Actions page. It reads the official skill folder and its license from one exact source revision.
+The [GitHub workflow](.github/workflows/sync-upstream.yml) looks for changes once a day at 06:17 UTC. You can also start it from the Actions page. It reads the official skill folder and its license from one exact source revision.
 
 When the skill changes, the workflow completes these steps:
 
