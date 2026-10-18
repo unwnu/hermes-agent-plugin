@@ -1,0 +1,20 @@
+{
+  "name": "hermes-agent-marketplace",
+  "interface": {
+    "displayName": "Hermes Agent Marketplace"
+  },
+  "plugins": [
+    {
+      "name": "hermes-agent",
+      "source": {
+        "source": "local",
+        "path": "./plugins/hermes-agent"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+name: Sync official skill and release
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hermes-release-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Test mirror and packaging invariants
+        run: python3 -m unittest discover -s tests -v
+      - name: Validate vendored skill and manifests
+        run: python3 scripts/validate.py
+      - name: Build reproducible release artifact
+        run: python3 scripts/package.py
+
+  sync-and-release:
+    if: github.event_name != 'pull_request' && github.repository == 'unwnu/hermes-agent-plugin'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Resolve and mirror the official skill only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/sync_upstream.py
+      - name: Validate update before publishing
+        run: |
+          python3 -m unittest discover -s tests -v
+          python3 scripts/validate.py
+      - name: Commit only verified package changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- plugins/hermes-agent; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            VERSION=$(python3 -c 'import json; print(json.load(open("plugins/hermes-agent/plugin.json"))["version"])')
+            git add -- plugins/hermes-agent
+            git commit -m "chore: sync official Hermes skill for v$VERSION"
+            git -c credential.helper='!gh auth git-credential' push origin HEAD:main
+          fi
+      - name: Build release artifacts
+        run: python3 scripts/package.py
+      - name: Publish release, or verify the existing release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/release.py

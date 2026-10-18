@@ -1,0 +1,26 @@
+{
+  "name": "hermes-agent",
+  "version": "1.0.0",
+  "description": "The official NousResearch Hermes Agent skill, preserved verbatim in a community-maintained plugin.",
+  "author": {
+    "name": "unwnu",
+    "url": "https://github.com/unwnu"
+  },
+  "homepage": "https://github.com/unwnu/hermes-agent-plugin",
+  "repository": "https://github.com/unwnu/hermes-agent-plugin",
+  "license": "MIT",
+  "keywords": [
+    "hermes",
+    "agent",
+    "nousresearch",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Hermes Agent",
+    "shortDescription": "Official Hermes skill, community packaging",
+    "longDescription": "Use, configure, theme, extend, and orchestrate Hermes Agent with the official NousResearch skill. This distribution preserves the upstream content and is maintained independently by unwnu.",
+    "developerName": "unwnu",
+    "category": "Developer Tools"
+  }
+}

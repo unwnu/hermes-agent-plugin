@@ -1,0 +1,14 @@
+{
+  "name": "hermes-agent-marketplace",
+  "description": "Community packaging of the official NousResearch Hermes Agent skill",
+  "owner": {
+    "name": "unwnu"
+  },
+  "plugins": [
+    {
+      "name": "hermes-agent",
+      "source": "./plugins/hermes-agent",
+      "description": "The official NousResearch Hermes Agent skill, preserved verbatim in a community-maintained plugin."
+    }
+  ]
+}

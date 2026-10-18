@@ -1,0 +1,18 @@
+{
+  "name": "hermes-agent",
+  "version": "1.0.0",
+  "description": "The official NousResearch Hermes Agent skill, preserved verbatim in a community-maintained plugin.",
+  "author": {
+    "name": "unwnu",
+    "url": "https://github.com/unwnu"
+  },
+  "homepage": "https://github.com/unwnu/hermes-agent-plugin",
+  "repository": "https://github.com/unwnu/hermes-agent-plugin",
+  "license": "MIT",
+  "keywords": [
+    "hermes",
+    "agent",
+    "nousresearch",
+    "skills"
+  ]
+}

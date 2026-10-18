@@ -1,0 +1,165 @@
+{
+  "repository": "NousResearch/hermes-agent",
+  "ref": "main",
+  "commit": "9e01b44dd23978f9ff40b7837467f3a9f1582130",
+  "source_path": "skills/autonomous-ai-agents/hermes-agent",
+  "source_url": "https://github.com/NousResearch/hermes-agent/tree/9e01b44dd23978f9ff40b7837467f3a9f1582130/skills/autonomous-ai-agents/hermes-agent",
+  "content_sha256": "10ac042178816103a1c00640ba9d66aebb660cb9925f7e911ba46f5337cb8b0b",
+  "license_sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "mode": "100644",
+      "git_blob_sha": "a184b3a47a59848dc015b525d438cc5b2e2dffae",
+      "sha256": "dcdc4b2d232ad415c76e09cc229a2c861f3e1225fd1f1262b33a965ea4732b24",
+      "bytes": 13190
+    },
+    {
+      "path": "references/background-systems.md",
+      "mode": "100644",
+      "git_blob_sha": "efb1ae2497ffa73fecd7f1dd4833afbacadedf5f",
+      "sha256": "70099ca64774cc7e70a33330d180f862cf19a02c0f936dc4c50d51c6d0b73556",
+      "bytes": 5069
+    },
+    {
+      "path": "references/cli-reference.md",
+      "mode": "100644",
+      "git_blob_sha": "f68b358cb5f7df865a02b1e36c044460bbaf1a25",
+      "sha256": "a15c6838f9ac1e35b0e113a66738b3ce27bb6500d31218797467a2f8691341b5",
+      "bytes": 6617
+    },
+    {
+      "path": "references/configuration.md",
+      "mode": "100644",
+      "git_blob_sha": "a3bcffe307463be982dd09bc7804d90adec9ec60",
+      "sha256": "ba075f369ff66e60134d4a472894599b18dd9f8f715840a928a5ff7e818f2455",
+      "bytes": 4431
+    },
+    {
+      "path": "references/contributor-guide.md",
+      "mode": "100644",
+      "git_blob_sha": "b23f07c17605f391c1616c47fce7273451c29e04",
+      "sha256": "097c860be377fcfc0c414d07dffe2ba5470ae33e3805a6536c2956dc6f520087",
+      "bytes": 5900
+    },
+    {
+      "path": "references/delegate-task-concurrency-diagnosis.md",
+      "mode": "100644",
+      "git_blob_sha": "34851bb0ed5a20ea66b9ee15e4aa2866e3ca391f",
+      "sha256": "41019dd37c0c048b002d3639fe01455513b5c9aba142a21ff9c3bd4c7718a77b",
+      "bytes": 4660
+    },
+    {
+      "path": "references/desktop-plugins.md",
+      "mode": "100644",
+      "git_blob_sha": "eee55adecb4b9575c85efdac6f38acf4925e549c",
+      "sha256": "2bd78982684a2612f27756b3e2f7eb744d17f72e523e5586d2b388f6d7db1037",
+      "bytes": 14019
+    },
+    {
+      "path": "references/native-mcp.md",
+      "mode": "100644",
+      "git_blob_sha": "0fed2652193019efbcd5d5209014ea2ce1760ce2",
+      "sha256": "ded08718d2eb141262a31b323f8e66eeb40f35e074e1f0e70abb76860891ec92",
+      "bytes": 12581
+    },
+    {
+      "path": "references/petdex.md",
+      "mode": "100644",
+      "git_blob_sha": "4fc564f240a31c3910a8dd4fb8ce88caa81b842e",
+      "sha256": "2254eabf40c360efb54e4df482f3b84820b54a15e6954c4a7e9e7fee4eb90f77",
+      "bytes": 3244
+    },
+    {
+      "path": "references/portal-auth-for-third-party-apps.md",
+      "mode": "100644",
+      "git_blob_sha": "37a8feba9516168f87f48326727438268b889d03",
+      "sha256": "4890617a80d8c70fc388a49201d5a718049a64c0ddd5fac3f35754641f063b99",
+      "bytes": 6579
+    },
+    {
+      "path": "references/project-context-files.md",
+      "mode": "100644",
+      "git_blob_sha": "7a6d8ee190719bc4355d6dc34f190009968ddb6d",
+      "sha256": "20b51406102e6498f62ed837978e5c67ebd91a917b985de7bbddfaaf23c1f593",
+      "bytes": 3285
+    },
+    {
+      "path": "references/providers-and-models.md",
+      "mode": "100644",
+      "git_blob_sha": "71d46afe525efbb97da21c54669d98bfcad8c920",
+      "sha256": "41c9c8e9de3a66c5e7f12c6fe39916d58a13e315be1dfd712fbf8cdaab4af203",
+      "bytes": 3381
+    },
+    {
+      "path": "references/security-privacy.md",
+      "mode": "100644",
+      "git_blob_sha": "4465fef93a2b0578fc740d32ca5e21c0ebe82d5e",
+      "sha256": "f27913f7775915d8065b2dea782197907ff90cf37f07b865135c7f61aee98e83",
+      "bytes": 3393
+    },
+    {
+      "path": "references/slash-commands.md",
+      "mode": "100644",
+      "git_blob_sha": "e501fa00c659a807feff61421c505b5dc6cb60d1",
+      "sha256": "690dc6c2543dfa028bbf2918c229f27f4962e9d897fce25ebb1de67d56f3b822",
+      "bytes": 5379
+    },
+    {
+      "path": "references/themes.md",
+      "mode": "100644",
+      "git_blob_sha": "b4ded40cb0caf6cbff4d0618d6abe8153746835c",
+      "sha256": "f5a8269a7312173f0caa6736156a3f76d32e56b4e15511e84dc2e902f48e8157",
+      "bytes": 6887
+    },
+    {
+      "path": "references/troubleshooting.md",
+      "mode": "100644",
+      "git_blob_sha": "7d76e6fa4eead500e1932cb7b5d2bd3148d078e0",
+      "sha256": "70045d9a3dd4f8ff4001b3a7ccfa7f967c130ce89877ee5f052c87752fcd5f5b",
+      "bytes": 3767
+    },
+    {
+      "path": "references/tui-widgets.md",
+      "mode": "100644",
+      "git_blob_sha": "c9eb6717f05e3a40179296692e8e61670e327807",
+      "sha256": "20e21aabb757a9d3c7d895db8f05a3782fe8b28feef3768ac5550c8860b4a3db",
+      "bytes": 6484
+    },
+    {
+      "path": "references/webhooks.md",
+      "mode": "100644",
+      "git_blob_sha": "78b0d12c4b7de28c03ba4d800a5ced4d26b0f009",
+      "sha256": "f668c57d1900e249cb4b54e5d624e9aacb399ecf1452f9b258a1bf857ffa8a42",
+      "bytes": 8466
+    },
+    {
+      "path": "references/windows-quirks.md",
+      "mode": "100644",
+      "git_blob_sha": "b94595ed82f70a6eb961b5efdce0c443f1dab300",
+      "sha256": "4af2c0907983376f1b21d2164de17f1229faeb0609c61762cfc026b806bc5501",
+      "bytes": 2671
+    },
+    {
+      "path": "templates/clock.mjs",
+      "mode": "100644",
+      "git_blob_sha": "fea22af3499f5ef518718f49d343253933b2b62e",
+      "sha256": "44ec25d560e16c7815a633039a783ddbba2d8e8cf1659560c0cd1cddec83f89d",
+      "bytes": 1423
+    },
+    {
+      "path": "templates/plugin.js",
+      "mode": "100644",
+      "git_blob_sha": "e3e75ed474aa59883d413a671ad85536be77cb79",
+      "sha256": "a63c8f879756854b45373f5d6b1ae0a7fefcdd4a5af840be8a60d83b64724744",
+      "bytes": 3141
+    },
+    {
+      "path": "templates/skin.yaml",
+      "mode": "100644",
+      "git_blob_sha": "1316511413b71dfa14e20bf8b208ea415f487564",
+      "sha256": "bc8fddd7e5373b074c1c7dd423bb59d6e04769977e8a18354e3a6b3983209994",
+      "bytes": 1389
+    }
+  ]
+}
