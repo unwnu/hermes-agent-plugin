@@ -1,17 +1,17 @@
 # Hermes Agent skill plugin
 
-The [official NousResearch Hermes Agent skill](https://github.com/NousResearch/hermes-agent/tree/main/skills/autonomous-ai-agents/hermes-agent), preserved **byte-for-byte**, packaged for Codex / ChatGPT and Claude Code.
+The [official NousResearch Hermes Agent skill](https://github.com/NousResearch/hermes-agent/tree/main/skills/autonomous-ai-agents/hermes-agent), copied without changes and packaged for Codex / ChatGPT and Claude Code.
 
-**Community distribution by [unwnu](https://github.com/unwnu).** The skill is official upstream content; this plugin wrapper and marketplace are independent, not an official Nous Research release or endorsement.
+The skill comes from Nous Research. This package is not an official Nous Research release.
 
 ## What is included
 
 - The original `hermes-agent` skill, its references, and its templates
-- Portable Agent Plugins, Codex, and Claude Code manifests
+- Plugin files for Agent Plugins, Codex, and Claude Code
 - Codex and Claude Code marketplace catalogs
-- The original MIT license and a per-file integrity/provenance lock
+- The original MIT license and a file that records the source and checksums
 
-This is a knowledge/operating-guide plugin. Installing it does **not** install the Hermes runtime, start an agent, configure an MCP server, add hooks, or grant access to accounts. Commands in the official guide still require the tools, environment, and permissions appropriate to the requested task.
+This plugin gives your assistant the Hermes guide. Installing it does **not** install the Hermes runtime, start an agent, configure an MCP server, add hooks, or grant access to accounts. Commands in the official guide still require the tools, environment, and permissions appropriate to the requested task.
 
 ## Install with Codex
 
@@ -54,9 +54,11 @@ The [sync workflow](.github/workflows/sync-upstream.yml) checks upstream at minu
 5. If skill content changed, mirror it verbatim and increment the plugin patch version
 6. Run tests and validation, commit the update, then publish a versioned ZIP and checksum
 
-Unrelated upstream commits do not create a new version or rewrite the lock. The plugin package version is independent of upstream's declared skill version, so content changes still receive a release even if upstream does not bump its metadata. Initial publication creates `v1.0.0`; interrupted draft publication can be resumed without replacing existing assets.
+Unrelated upstream commits do not create a new version or rewrite the lock. The plugin has its own version number. It gets a new release when the skill changes, even if the skill's own version number stays the same. The first release is `v1.0.0`. If a release stops before it is ready, the next run can finish it without replacing uploaded files.
 
-The workflow uses GitHub's built-in, job-scoped token with `contents: write` only in the publish job. No PAT, external secret, server, or paid runner is required. Pull requests run validation with read-only permissions. The upstream source is never executed by CI. Symlinks, submodules, unsafe paths, oversized content, integrity failures, and license changes stop publication for review.
+The workflow uses GitHub's built-in temporary token. Only the release job gets `contents: write`. No PAT, external secret, server, or paid runner is required. Pull requests run validation with read-only permissions. The workflow downloads the official skill but never runs its code. Symlinks, submodules, unsafe paths, oversized content, integrity failures, and license changes stop publication for review.
+
+The release job checks that an existing version tag points to the same plugin files before it publishes. It never replaces an existing release file. If GitHub leaves an empty failed upload in a draft release, remove that failed file from the draft and run the workflow again.
 
 Automatic GitHub releases and automatic client installation are separate: clients must refresh their marketplace or enable their own supported update setting.
 

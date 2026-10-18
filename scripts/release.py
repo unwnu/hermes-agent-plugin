@@ -9,19 +9,57 @@ import subprocess
 import urllib.error
 import urllib.parse
 import urllib.request
-from sync_upstream import ROOT, PLUGIN, LOCK
+from sync_upstream import ROOT, PLUGIN, LOCK, open_request
 
 
 def request(method, url, body=None, content_type="application/json"):
     token = os.environ.get("GH_TOKEN") or os.environ["GITHUB_TOKEN"]
-    if urllib.parse.urlsplit(url).hostname not in {"api.github.com", "uploads.github.com"}:
+    parsed = urllib.parse.urlsplit(url)
+    if parsed.scheme != "https" or parsed.hostname not in {"api.github.com", "uploads.github.com"} or parsed.port not in {None, 443}:
         raise ValueError("Unexpected release API destination")
     headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json",
                "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "hermes-agent-plugin-release",
                "Content-Type": content_type}
     req = urllib.request.Request(url, data=body, headers=headers, method=method)
-    with urllib.request.urlopen(req, timeout=90) as response:
+    with open_request(req, timeout=90) as response:
         return json.load(response)
+
+
+def ensure_tag(base, tag, commit, expected_tree):
+    """Pin a missing tag and verify existing tags before any release writes."""
+    url = base + "/git/ref/tags/" + tag
+    try:
+        ref = request("GET", url)
+    except urllib.error.HTTPError as error:
+        if error.code != 404:
+            raise
+        try:
+            ref = request("POST", base + "/git/refs", json.dumps({"ref": "refs/tags/" + tag, "sha": commit}).encode())
+        except urllib.error.HTTPError as collision:
+            if collision.code != 422:
+                raise
+            # Another actor may have created the tag. Re-read; never force it.
+            ref = request("GET", url)
+    obj = ref["object"]
+    for _ in range(5):
+        if obj["type"] != "tag":
+            break
+        obj = request("GET", base + "/git/tags/" + obj["sha"])["object"]
+    if obj["type"] != "commit":
+        raise ValueError("Release tag does not resolve to a commit")
+    target_commit = obj["sha"]
+    tree_sha = target_commit
+    for part in ("plugins", "hermes-agent"):
+        tree = request("GET", base + "/git/trees/" + tree_sha)
+        if tree.get("truncated"):
+            raise ValueError("Truncated release tree")
+        matches = [e for e in tree["tree"] if e["path"] == part and e["type"] == "tree"]
+        if len(matches) != 1:
+            raise ValueError("Release tag is missing the plugin directory")
+        tree_sha = matches[0]["sha"]
+    if tree_sha != expected_tree:
+        raise ValueError("Release tag points to a different plugin; refusing to publish or overwrite")
+    return target_commit
 
 
 def main():
@@ -35,6 +73,8 @@ def main():
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     lock = json.loads((ROOT / LOCK).read_text())
     base = "https://api.github.com/repos/" + repository
+    expected_tree = subprocess.check_output(["git", "rev-parse", "HEAD:plugins/hermes-agent"], cwd=ROOT, text=True).strip()
+    target_commit = ensure_tag(base, tag, commit, expected_tree)
     notes = (f"Community package of the official NousResearch Hermes Agent skill.\n\n"
              f"- Upstream commit: `{lock['commit']}`\n"
              f"- [Exact upstream skill]({lock['source_url']})\n"
@@ -69,7 +109,7 @@ def main():
         upload = release["upload_url"].split("{", 1)[0] + "?name=" + urllib.parse.quote(artifact.name)
         request("POST", upload, data, "application/zip" if suffix == "zip" else "text/plain")
     if release["draft"]:
-        release = request("PATCH", base + "/releases/" + str(release["id"]), json.dumps({"draft": False, "make_latest": "true"}).encode())
+        release = request("PATCH", base + "/releases/" + str(release["id"]), json.dumps({"draft": False, "make_latest": "true", "target_commitish": target_commit, "body": notes}).encode())
     print(release["html_url"])
 
 

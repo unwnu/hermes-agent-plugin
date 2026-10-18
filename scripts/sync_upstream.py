@@ -28,6 +28,20 @@ SHA = re.compile(r"^[0-9a-f]{40}$")
 VERSION = re.compile(r"^(\d+)\.(\d+)\.(\d+)$")
 
 
+class SameOriginRedirect(urllib.request.HTTPRedirectHandler):
+    """Reject redirects before urllib can forward an Authorization header."""
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        old = urllib.parse.urlsplit(req.full_url)
+        new = urllib.parse.urlsplit(newurl)
+        if (new.scheme, new.hostname, new.port) != (old.scheme, old.hostname, old.port):
+            raise ValueError("Cross-origin redirect rejected")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def open_request(req, timeout):
+    return urllib.request.build_opener(SameOriginRedirect()).open(req, timeout=timeout)
+
+
 def read_json(path):
     return json.loads(Path(path).read_text())
 
@@ -45,7 +59,7 @@ def request(url, limit=MAX_FILE):
     if token and url.startswith("https://api.github.com/"):
         headers["Authorization"] = "Bearer " + token
     req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=45) as response:
+    with open_request(req, timeout=45) as response:
         if urllib.parse.urlsplit(response.url).hostname not in {"api.github.com", "raw.githubusercontent.com"}:
             raise ValueError("Unexpected download destination")
         data = response.read(limit + 1)
