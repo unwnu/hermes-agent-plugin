@@ -1,70 +1,56 @@
 # Hermes Agent skill plugin
 
-The [official NousResearch Hermes Agent skill](https://github.com/NousResearch/hermes-agent/tree/main/skills/autonomous-ai-agents/hermes-agent), copied without changes and packaged for Codex / ChatGPT and Claude Code.
+This plugin packages the [official Hermes Agent skill](https://github.com/NousResearch/hermes-agent/tree/main/skills/autonomous-ai-agents/hermes-agent) for Codex, ChatGPT, and Claude Code. A skill gives instructions to an assistant. This package keeps the original skill, reference files, and templates unchanged.
 
-The skill comes from Nous Research. This package is not an official Nous Research release.
+Nous Research publishes the skill. This package is not an official Nous Research release. It adds the guide to your assistant without installing the Hermes runtime or connecting your accounts.
 
-## What is included
+## Install
 
-- The original `hermes-agent` skill, its references, and its templates
-- Plugin files for Agent Plugins, Codex, and Claude Code
-- Codex and Claude Code marketplace catalogs
-- The original MIT license and a file that records the source and checksums
-
-This plugin gives your assistant the Hermes guide. Installing it does **not** install the Hermes runtime, start an agent, configure an MCP server, add hooks, or grant access to accounts. Commands in the official guide still require the tools, environment, and permissions appropriate to the requested task.
-
-## Install with Codex
+A marketplace lists plugins that you can install. Run these commands in a terminal with Codex installed:
 
 ```sh
 codex plugin marketplace add unwnu/hermes-agent-plugin --ref main
 codex plugin add hermes-agent@hermes-agent-marketplace
 ```
 
-On supported ChatGPT desktop clients, the marketplace is also available through the Plugins Directory after registration. Restart or refresh the client if needed, then verify the plugin is installed and enabled in the intended account/environment. A GitHub repository by itself does not install a plugin into a cloud conversation.
-
-Refresh the tracked marketplace:
-
-```sh
-codex plugin marketplace upgrade hermes-agent-marketplace
-```
-
-For a fixed version, register the repository with `--ref v1.0.0` instead of `--ref main`. A pinned tag deliberately does not track subsequent releases.
-
-## Install with Claude Code
+For Claude Code, run these commands in a terminal with Claude Code installed:
 
 ```sh
 claude plugin marketplace add unwnu/hermes-agent-plugin
 claude plugin install hermes-agent@hermes-agent-marketplace
 ```
 
-The skill is available as `/hermes-agent:hermes-agent`. Use Claude Code's marketplace/plugin update controls to fetch new releases.
+In Claude Code, use `/hermes-agent:hermes-agent` to call the skill. In a supported ChatGPT desktop client, open the Plugins Directory after you register the marketplace. Make sure that the plugin is installed and enabled.
 
-## Download a portable package
+These commands install the plugin in your local client. They do not install it into a cloud conversation. Cloud import depends on your client and workspace policy.
 
-[GitHub Releases](https://github.com/unwnu/hermes-agent-plugin/releases) contains `hermes-agent-VERSION.zip` and its SHA-256 checksum. The ZIP has one plugin root and includes all three supported manifests. Import/upload support depends on the client and workspace policy; publication here does not enroll the plugin in OpenAI's or Anthropic's public directories.
+You can also download the plugin ZIP from [Releases](https://github.com/unwnu/hermes-agent-plugin/releases). Each release includes a SHA-256 checksum. A checksum detects changes to file contents.
 
-## Automatic updates and releases
+## Get updates
 
-The [sync workflow](.github/workflows/sync-upstream.yml) checks upstream at minute 17 of every hour and can be run manually from Actions. GitHub may delay scheduled runs and may disable schedules in inactive public repositories after 60 days; re-enable the workflow if that happens.
+The [GitHub workflow](.github/workflows/sync-upstream.yml) looks for changes at minute 17 of every hour. You can also start it from the Actions page. It reads the official skill folder and its license from one exact source revision.
 
-1. Resolve upstream `main` once to an immutable commit
-2. Read only `skills/autonomous-ai-agents/hermes-agent` and the root license
-3. Verify every downloaded file against its upstream Git blob SHA
-4. Compare paths, modes, and content hashes with the committed provenance lock
-5. If skill content changed, mirror it verbatim and increment the plugin patch version
-6. Run tests and validation, commit the update, then publish a versioned ZIP and checksum
+When the skill changes, the workflow completes these steps:
 
-Unrelated upstream commits do not create a new version or rewrite the lock. The plugin has its own version number. It gets a new release when the skill changes, even if the skill's own version number stays the same. The first release is `v1.0.0`. If a release stops before it is ready, the next run can finish it without replacing uploaded files.
+1. Copy the changed files without editing them
+2. Run the tests and make sure that all file hashes match
+3. Increase the plugin patch version and publish a ZIP with its checksum
 
-The workflow uses GitHub's built-in temporary token. Only the release job gets `contents: write`. No PAT, external secret, server, or paid runner is required. Pull requests run validation with read-only permissions. The workflow downloads the official skill but never runs its code. Symlinks, submodules, unsafe paths, oversized content, integrity failures, and license changes stop publication for review.
+Changes outside the official skill folder do not create a release. The plugin has its own version number. It can receive an update even when the version inside the official skill stays the same.
 
-The release job checks that an existing version tag points to the same plugin files before it publishes. It never replaces an existing release file. If GitHub leaves an empty failed upload in a draft release, remove that failed file from the draft and run the workflow again.
+To get the latest files in Codex, run this command:
 
-Automatic GitHub releases and automatic client installation are separate: clients must refresh their marketplace or enable their own supported update setting.
+```sh
+codex plugin marketplace upgrade hermes-agent-marketplace
+```
 
-## Validate or sync locally
+For Claude Code, use its marketplace and plugin update controls. To keep a fixed Codex version, replace `--ref main` with `--ref v1.0.0` during registration. A fixed version does not receive later changes.
 
-Python 3.10+ and the standard library are sufficient:
+GitHub can delay scheduled runs. It disables schedules in public repositories after 60 days without repository activity. If that happens, [enable the workflow again](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/disable-and-enable-workflows).
+
+## Maintain this package
+
+Use Python 3.10 or later. The scripts need only the Python standard library. Run these commands from the root of this repository:
 
 ```sh
 python3 -m unittest discover -s tests -v
@@ -73,15 +59,20 @@ python3 scripts/package.py
 python3 scripts/sync_upstream.py
 ```
 
-`plugins/hermes-agent/upstream-lock.json` records the exact upstream commit, path, SHA-256 fingerprint, license hash, and each file's Git blob hash. Do not edit the vendored skill: make wrapper changes outside `skills/hermes-agent/`, or contribute corrections upstream.
+The source record is `plugins/hermes-agent/upstream-lock.json`. It stores the exact source revision, file paths, modes, hashes, and license hash. Do not edit `plugins/hermes-agent/skills/hermes-agent/` directly. Send changes to the official repository instead.
 
-## Format references
+The workflow uses a temporary GitHub token. Only the release job gets `contents: write`. It needs no personal access token, external secret, server, or paid runner. Pull requests run tests with read-only access.
 
-- [OpenAI plugin packaging and marketplaces](https://developers.openai.com/plugins/build/plugins)
-- [Agent Plugins manifest schema](https://agent-plugins.org/schemas/1.0.0/plugin.schema.json)
-- [Claude Code marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
-- [Claude Code plugin manifest reference](https://code.claude.com/docs/en/plugins-reference)
+The workflow never runs code from the downloaded skill. It stops for unsafe paths, unsupported file types, large downloads, incorrect hashes, or license changes. Before publication, it makes sure that the version tag points to the same plugin files.
 
-## License and attribution
+The release job never replaces an uploaded file. If GitHub leaves an empty failed upload in a draft release, remove that file from the draft. Then run the workflow again.
 
-The original skill and accompanying resources are MIT-licensed, copyright © 2025 Nous Research; see [the preserved upstream license](plugins/hermes-agent/LICENSE). The upstream skill identifies its authors as Hermes Agent + Teknium. Packaging and synchronization code are MIT-licensed; see [LICENSE](LICENSE).
+## License and formats
+
+The skill and its resources use the [original MIT license](plugins/hermes-agent/LICENSE), copyright 2025 Nous Research. The skill names Hermes Agent + Teknium as its authors. The packaging scripts use the [MIT license](LICENSE).
+
+The package includes separate files for these plugin formats:
+
+- [OpenAI plugins and marketplaces](https://developers.openai.com/plugins/build/plugins)
+- [Agent Plugins](https://agent-plugins.org/schemas/1.0.0/plugin.schema.json)
+- [Claude Code plugins and marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
