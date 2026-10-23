@@ -1,10 +1,10 @@
 {
   "repository": "NousResearch/hermes-agent",
   "ref": "main",
-  "commit": "3d7e687462ca8edfa52142a4dafad12def723bd7",
+  "commit": "8edc5ea255aaf17b1f1f944bc2dcce52fce06fa8",
   "source_path": "skills/autonomous-ai-agents/hermes-agent",
-  "source_url": "https://github.com/NousResearch/hermes-agent/tree/3d7e687462ca8edfa52142a4dafad12def723bd7/skills/autonomous-ai-agents/hermes-agent",
-  "content_sha256": "3d124e2bf38e7f9d8216c9f688b95fb89fd56174a9bb04b72b09f34b570f94d4",
+  "source_url": "https://github.com/NousResearch/hermes-agent/tree/8edc5ea255aaf17b1f1f944bc2dcce52fce06fa8/skills/autonomous-ai-agents/hermes-agent",
+  "content_sha256": "4d0a04a86965c44dd9420d9646a61f898ea0a4e76ecea1b0c2d045f06a5a43d5",
   "license_sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6",
   "files": [
     {
@@ -24,23 +24,23 @@
     {
       "path": "references/cli-reference.md",
       "mode": "100644",
-      "git_blob_sha": "1104b1bdadb66720078da4a8c84fe0727f15b694",
-      "sha256": "06e6144c309728db7243ff2af88e0924919d10270cdf5d1ba14e13087657ba01",
-      "bytes": 6636
+      "git_blob_sha": "ec8b1b8a17dc095486d58737985fc4a1d6ed529e",
+      "sha256": "5f1633c6eac7f363172dd5fce96a6628781de294d553b75fd32cef6243095c7d",
+      "bytes": 6874
     },
     {
       "path": "references/configuration.md",
       "mode": "100644",
-      "git_blob_sha": "a3bcffe307463be982dd09bc7804d90adec9ec60",
-      "sha256": "ba075f369ff66e60134d4a472894599b18dd9f8f715840a928a5ff7e818f2455",
-      "bytes": 4431
+      "git_blob_sha": "599ff4e3394a9ca0b275cc3b825d9c9c4fa59cb6",
+      "sha256": "60e98213eda62521ec21fdc10dc916fb30858025de34e52437482ef68a2fcfe1",
+      "bytes": 5087
     },
     {
       "path": "references/contributor-guide.md",
       "mode": "100644",
-      "git_blob_sha": "b23f07c17605f391c1616c47fce7273451c29e04",
-      "sha256": "097c860be377fcfc0c414d07dffe2ba5470ae33e3805a6536c2956dc6f520087",
-      "bytes": 5900
+      "git_blob_sha": "02bdf928c910d065d03074211645369d8da0a037",
+      "sha256": "c92ea1a35fff35a665bfd19618198960d3afac10dab793f9372e16fb45895059",
+      "bytes": 5931
     },
     {
       "path": "references/delegate-task-concurrency-diagnosis.md",
