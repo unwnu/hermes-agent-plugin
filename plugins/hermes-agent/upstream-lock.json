@@ -1,10 +1,10 @@
 {
   "repository": "NousResearch/hermes-agent",
   "ref": "main",
-  "commit": "d764d0c7e20f33bac869b6ebd34570de0cb6e069",
+  "commit": "e07a672e8275d62a49e59689d9d7ef73913efc76",
   "source_path": "skills/autonomous-ai-agents/hermes-agent",
-  "source_url": "https://github.com/NousResearch/hermes-agent/tree/d764d0c7e20f33bac869b6ebd34570de0cb6e069/skills/autonomous-ai-agents/hermes-agent",
-  "content_sha256": "49c6836ce752d77efb162e90c6e4eb68b2e0f1c5e3e0ac3608f6ab35d07532e7",
+  "source_url": "https://github.com/NousResearch/hermes-agent/tree/e07a672e8275d62a49e59689d9d7ef73913efc76/skills/autonomous-ai-agents/hermes-agent",
+  "content_sha256": "3dc6d02cf3d53a952d6da8a08828fe98a193df9df893f4ce6e4aa3ede0a19c94",
   "license_sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6",
   "files": [
     {
@@ -52,9 +52,9 @@
     {
       "path": "references/desktop-plugins.md",
       "mode": "100644",
-      "git_blob_sha": "cd6374ef5c67c85b320824afc1f50fe0354d4e5d",
-      "sha256": "857d78cfd912f76b822a85c2214283f00359d9356d41dc4847db4f3654619451",
-      "bytes": 14600
+      "git_blob_sha": "31552801022b1f99286e397e4b520f169b0563f4",
+      "sha256": "5f043c22ee1fc72cac041c3ef060b5bb6b6cc6dc36de0040319ad2107d493fe7",
+      "bytes": 15157
     },
     {
       "path": "references/native-mcp.md",
