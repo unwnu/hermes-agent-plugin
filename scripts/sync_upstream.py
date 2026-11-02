@@ -4,14 +4,20 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 import hashlib
+import http.client
 import json
 import os
 from pathlib import Path, PurePosixPath
+import random
 import re
 import shutil
 import tempfile
+import time
 import urllib.parse
+import urllib.error
 import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +30,9 @@ LOCK = PLUGIN / "upstream-lock.json"
 MAX_FILE = 2 * 1024 * 1024
 MAX_TOTAL = 20 * 1024 * 1024
 MAX_FILES = 500
+REQUEST_BUDGET = 75
+SYNC_BUDGET = 300
+MAX_ATTEMPTS = 4
 SHA = re.compile(r"^[0-9a-f]{40}$")
 VERSION = re.compile(r"^(\d+)\.(\d+)\.(\d+)$")
 
@@ -52,24 +61,68 @@ def write_json(path, value):
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n")
 
 
-def request(url, limit=MAX_FILE):
+def retry_delay(error, attempt):
+    """Use a server delay when supplied, otherwise exponential backoff with jitter."""
+    retry_after = (error.headers or {}).get("Retry-After") if isinstance(error, urllib.error.HTTPError) else None
+    if retry_after:
+        try:
+            return max(0, int(retry_after))
+        except ValueError:
+            try:
+                date = parsedate_to_datetime(retry_after)
+                return max(0, (date - datetime.now(timezone.utc)).total_seconds())
+            except (TypeError, ValueError, OverflowError):
+                pass
+    return min(2 ** attempt, 8) * random.uniform(0.8, 1.2)
+
+
+def request(url, limit=MAX_FILE, deadline=None):
     headers = {"User-Agent": "hermes-agent-plugin-sync", "Accept": "application/vnd.github+json"}
     # Ephemeral Actions token is used only at the fixed GitHub API origin.
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if token and url.startswith("https://api.github.com/"):
         headers["Authorization"] = "Bearer " + token
-    req = urllib.request.Request(url, headers=headers)
-    with open_request(req, timeout=45) as response:
-        if urllib.parse.urlsplit(response.url).hostname not in {"api.github.com", "raw.githubusercontent.com"}:
-            raise ValueError("Unexpected download destination")
-        data = response.read(limit + 1)
-    if len(data) > limit:
-        raise ValueError("Upstream response exceeds size limit")
-    return data
+    end = min(time.monotonic() + REQUEST_BUDGET, deadline if deadline is not None else float("inf"))
+    for attempt in range(MAX_ATTEMPTS):
+        remaining = end - time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError("Upstream download time budget exhausted")
+        req = urllib.request.Request(url, headers=headers)
+        try:
+            with open_request(req, timeout=min(45, remaining)) as response:
+                if urllib.parse.urlsplit(response.url).hostname not in {"api.github.com", "raw.githubusercontent.com"}:
+                    raise ValueError("Unexpected download destination")
+                # HTTPResponse.read1 returns after one socket read; check the
+                # shared deadline between chunks even for a trickling server.
+                read_chunk = getattr(response, "read1", response.read)
+                data = bytearray()
+                while len(data) <= limit:
+                    if time.monotonic() >= end:
+                        raise TimeoutError("Upstream download time budget exhausted")
+                    chunk = read_chunk(min(65536, limit + 1 - len(data)))
+                    if not chunk:
+                        break
+                    data.extend(chunk)
+            if len(data) > limit:
+                raise ValueError("Upstream response exceeds size limit")
+            return bytes(data)
+        except urllib.error.HTTPError as error:
+            rate_limited = error.code == 403 and (error.headers or {}).get("Retry-After") is not None
+            if not rate_limited and error.code not in {408, 429} and not 500 <= error.code <= 599:
+                raise
+            failure = error
+        except (urllib.error.URLError, TimeoutError, ConnectionError, http.client.IncompleteRead) as error:
+            failure = error
+        if attempt == MAX_ATTEMPTS - 1:
+            raise failure
+        delay = retry_delay(failure, attempt)
+        if delay >= end - time.monotonic():
+            raise failure
+        time.sleep(delay)
 
 
-def api(path):
-    return json.loads(request("https://api.github.com/repos/" + REPOSITORY + "/" + path))
+def api(path, deadline=None):
+    return json.loads(request("https://api.github.com/repos/" + REPOSITORY + "/" + path, deadline=deadline))
 
 
 def safe_path(name):
@@ -99,17 +152,17 @@ def next_version(version):
     return f"{major}.{minor}.{patch + 1}"
 
 
-def collect_entries(commit):
+def collect_entries(commit, deadline=None):
     tree_sha = commit
     for part in SOURCE_PATH.split("/"):
-        tree = api("git/trees/" + tree_sha)
+        tree = api("git/trees/" + tree_sha, deadline=deadline)
         if tree.get("truncated"):
             raise ValueError("Truncated upstream tree")
         matches = [e for e in tree["tree"] if e["path"] == part and e["type"] == "tree"]
         if len(matches) != 1:
             raise ValueError("Official skill directory disappeared or changed type")
         tree_sha = matches[0]["sha"]
-    tree = api("git/trees/" + tree_sha + "?recursive=1")
+    tree = api("git/trees/" + tree_sha + "?recursive=1", deadline=deadline)
     if tree.get("truncated"):
         raise ValueError("Truncated upstream tree")
     entries = [e for e in tree["tree"] if e["type"] != "tree"]
@@ -128,14 +181,14 @@ def collect_entries(commit):
     return sorted(entries, key=lambda e: e["path"])
 
 
-def fetch_snapshot(commit):
+def fetch_snapshot(commit, deadline=None):
     if not SHA.fullmatch(commit):
         raise ValueError("An immutable 40-character upstream commit is required")
-    entries = collect_entries(commit)
+    entries = collect_entries(commit, deadline=deadline)
     def download(entry):
         relative = entry["path"]
         url = "https://raw.githubusercontent.com/" + REPOSITORY + "/" + commit + "/" + SOURCE_PATH + "/" + urllib.parse.quote(relative)
-        data = request(url)
+        data = request(url, deadline=deadline)
         if git_blob_sha(data) != entry["sha"]:
             raise ValueError("Upstream blob integrity mismatch: " + relative)
         return entry, data
@@ -143,7 +196,7 @@ def fetch_snapshot(commit):
         downloaded = list(pool.map(download, entries))
     if sum(len(data) for _, data in downloaded) > MAX_TOTAL:
         raise ValueError("Upstream skill exceeds total size limit")
-    license_data = request("https://raw.githubusercontent.com/" + REPOSITORY + "/" + commit + "/LICENSE")
+    license_data = request("https://raw.githubusercontent.com/" + REPOSITORY + "/" + commit + "/LICENSE", deadline=deadline)
     records = [{"path": e["path"], "mode": e["mode"], "git_blob_sha": e["sha"],
                 "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data)} for e, data in downloaded]
     lock = {"repository": REPOSITORY, "ref": REF, "commit": commit, "source_path": SOURCE_PATH,
@@ -196,8 +249,9 @@ def main():
     parser.add_argument("--initialize", action="store_true")
     parser.add_argument("--output-metadata", type=Path)
     args = parser.parse_args()
-    commit = args.commit or api("commits/" + REF)["sha"]
-    downloaded, license_data, lock = fetch_snapshot(commit)
+    deadline = time.monotonic() + SYNC_BUDGET
+    commit = args.commit or api("commits/" + REF, deadline=deadline)["sha"]
+    downloaded, license_data, lock = fetch_snapshot(commit, deadline=deadline)
     result = apply_snapshot(ROOT, downloaded, license_data, lock, args.initialize)
     if args.output_metadata:
         write_json(args.output_metadata, result)
