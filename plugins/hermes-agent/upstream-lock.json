@@ -1,32 +1,32 @@
 {
   "repository": "NousResearch/hermes-agent",
   "ref": "main",
-  "commit": "c419cf7c864ac0ee511dbd9f7091a8bba0b567ee",
+  "commit": "5e7c2b254d414e4e25105231f818f385fee67469",
   "source_path": "skills/autonomous-ai-agents/hermes-agent",
-  "source_url": "https://github.com/NousResearch/hermes-agent/tree/c419cf7c864ac0ee511dbd9f7091a8bba0b567ee/skills/autonomous-ai-agents/hermes-agent",
-  "content_sha256": "ad5fc57fa5787c26972c6ef360962a05cffa831014b65aa49e054bc87ef90d85",
+  "source_url": "https://github.com/NousResearch/hermes-agent/tree/5e7c2b254d414e4e25105231f818f385fee67469/skills/autonomous-ai-agents/hermes-agent",
+  "content_sha256": "7c5e53361a34eab34b1b2eae543d653dde7764caaafe4cc4951d8137c75ab55f",
   "license_sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6",
   "files": [
     {
       "path": "SKILL.md",
       "mode": "100644",
-      "git_blob_sha": "a1d3b854e4d8551c03a485221c456cb0f6a779f0",
-      "sha256": "3bce24f8fa5e0419286cc6ea101bb064b0b064a788091272dce4029eb36d6d86",
-      "bytes": 15834
+      "git_blob_sha": "9b9bb8dd96a135cc14544aae0f3b03ffa794f39a",
+      "sha256": "c14f545a0a0dd00cb009408faedad563878d78039a7c7a80369aac847cdfb7f8",
+      "bytes": 15952
     },
     {
       "path": "references/background-systems.md",
       "mode": "100644",
-      "git_blob_sha": "efb1ae2497ffa73fecd7f1dd4833afbacadedf5f",
-      "sha256": "70099ca64774cc7e70a33330d180f862cf19a02c0f936dc4c50d51c6d0b73556",
-      "bytes": 5069
+      "git_blob_sha": "8fd32fbcacc5c34e298499e69ed58feb3bab2f18",
+      "sha256": "6fcab147215c2e52716fe1ae650ed8972e3ad13f7a50477fb5ca6082adca143b",
+      "bytes": 5210
     },
     {
       "path": "references/cli-reference.md",
       "mode": "100644",
-      "git_blob_sha": "ec8b1b8a17dc095486d58737985fc4a1d6ed529e",
-      "sha256": "5f1633c6eac7f363172dd5fce96a6628781de294d553b75fd32cef6243095c7d",
-      "bytes": 6874
+      "git_blob_sha": "f336c9c69d5529412478954d4b281d6e86c690fa",
+      "sha256": "d1ceaa55fd1cb0ed11c1b15dde254ea755850924b477fbdac0a2a3fe5a537f27",
+      "bytes": 6915
     },
     {
       "path": "references/configuration.md",
@@ -83,6 +83,13 @@
       "git_blob_sha": "7a6d8ee190719bc4355d6dc34f190009968ddb6d",
       "sha256": "20b51406102e6498f62ed837978e5c67ebd91a917b985de7bbddfaaf23c1f593",
       "bytes": 3285
+    },
+    {
+      "path": "references/projects-and-folders.md",
+      "mode": "100644",
+      "git_blob_sha": "5125fc7114266053a7b997531ab12ebe1b8d6989",
+      "sha256": "3ef1588e84a454b4cb3c08dc11519eca3c46208dd4d443124cafbb5d4ec0d55a",
+      "bytes": 9079
     },
     {
       "path": "references/providers-and-models.md",
