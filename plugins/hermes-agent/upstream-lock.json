@@ -1,10 +1,10 @@
 {
   "repository": "NousResearch/hermes-agent",
   "ref": "main",
-  "commit": "122fc40fb06b722b4debedac429c57336cff61ae",
+  "commit": "77e16d5f0f69328003adc3dd91e5f36823df982e",
   "source_path": "skills/autonomous-ai-agents/hermes-agent",
-  "source_url": "https://github.com/NousResearch/hermes-agent/tree/122fc40fb06b722b4debedac429c57336cff61ae/skills/autonomous-ai-agents/hermes-agent",
-  "content_sha256": "acc6887b07735b3e46b9ea04667a41e3af99d30dc253e5e5897132ace71401ad",
+  "source_url": "https://github.com/NousResearch/hermes-agent/tree/77e16d5f0f69328003adc3dd91e5f36823df982e/skills/autonomous-ai-agents/hermes-agent",
+  "content_sha256": "0c9a4aa3cd2da6cb41ff13aa2a687e7076e01b984738b2bcb1d398193f518008",
   "license_sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6",
   "files": [
     {
@@ -59,9 +59,9 @@
     {
       "path": "references/native-mcp.md",
       "mode": "100644",
-      "git_blob_sha": "0fed2652193019efbcd5d5209014ea2ce1760ce2",
-      "sha256": "ded08718d2eb141262a31b323f8e66eeb40f35e074e1f0e70abb76860891ec92",
-      "bytes": 12581
+      "git_blob_sha": "f79206c58ac15cbc1ed970b728a0ef6fb3657f19",
+      "sha256": "1143ce44e511c13376200a961697c7eb197f0adc9b83bccaa7f24b2d8150f09d",
+      "bytes": 12844
     },
     {
       "path": "references/petdex.md",

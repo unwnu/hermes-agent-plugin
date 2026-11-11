@@ -1,6 +1,6 @@
 {
   "name": "hermes-agent",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "The official NousResearch Hermes Agent skill, preserved verbatim in a community-maintained plugin.",
   "author": {
     "name": "unwnu",
