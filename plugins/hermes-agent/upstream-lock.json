@@ -1,10 +1,10 @@
 {
   "repository": "NousResearch/hermes-agent",
   "ref": "main",
-  "commit": "77e16d5f0f69328003adc3dd91e5f36823df982e",
+  "commit": "11f2b03734c991318566575ac8dde0350c9c743c",
   "source_path": "skills/autonomous-ai-agents/hermes-agent",
-  "source_url": "https://github.com/NousResearch/hermes-agent/tree/77e16d5f0f69328003adc3dd91e5f36823df982e/skills/autonomous-ai-agents/hermes-agent",
-  "content_sha256": "0c9a4aa3cd2da6cb41ff13aa2a687e7076e01b984738b2bcb1d398193f518008",
+  "source_url": "https://github.com/NousResearch/hermes-agent/tree/11f2b03734c991318566575ac8dde0350c9c743c/skills/autonomous-ai-agents/hermes-agent",
+  "content_sha256": "815ec8e5c1c28b9fbc9cbe39ebb48e57a3b9fbffb798bc8f4c1e48258648f04f",
   "license_sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6",
   "files": [
     {
@@ -136,9 +136,9 @@
     {
       "path": "references/webhooks.md",
       "mode": "100644",
-      "git_blob_sha": "78b0d12c4b7de28c03ba4d800a5ced4d26b0f009",
-      "sha256": "f668c57d1900e249cb4b54e5d624e9aacb399ecf1452f9b258a1bf857ffa8a42",
-      "bytes": 8466
+      "git_blob_sha": "805e32b4b0d2185e43d67ef7721a7d500c0cb8d5",
+      "sha256": "5446079fed28b548eac13a81a52a0c61223641d2c25b511fa7989f1d9bd3f845",
+      "bytes": 8961
     },
     {
       "path": "references/windows-quirks.md",
