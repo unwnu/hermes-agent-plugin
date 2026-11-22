@@ -1,10 +1,10 @@
 {
   "repository": "NousResearch/hermes-agent",
   "ref": "main",
-  "commit": "1d28c6cd80e0ee30a2401feea3ddeb955c18e70d",
+  "commit": "0f602c5f6f18615632535251d62a2db74ce93b69",
   "source_path": "skills/autonomous-ai-agents/hermes-agent",
-  "source_url": "https://github.com/NousResearch/hermes-agent/tree/1d28c6cd80e0ee30a2401feea3ddeb955c18e70d/skills/autonomous-ai-agents/hermes-agent",
-  "content_sha256": "c6d8b1c8c9bd089d895d1e48034ca5b53693dcf8083dc9b705968db741804ab1",
+  "source_url": "https://github.com/NousResearch/hermes-agent/tree/0f602c5f6f18615632535251d62a2db74ce93b69/skills/autonomous-ai-agents/hermes-agent",
+  "content_sha256": "ada9d47b8e1c01e047307b9dcddb3399570fd814fb144e7b6e793f509badd8a2",
   "license_sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6",
   "files": [
     {
@@ -45,9 +45,9 @@
     {
       "path": "references/delegate-task-concurrency-diagnosis.md",
       "mode": "100644",
-      "git_blob_sha": "42567c42b8bc8ca20114a6b4befee50f305c70ff",
-      "sha256": "79d57d1fdf888b07fa3213723e827dfb3fa932ce8375ceec91b62cf53a3dc542",
-      "bytes": 4705
+      "git_blob_sha": "b89c876521de2d40af5f2e3f56f14c5cfd6d4edf",
+      "sha256": "62033f7cc2b0f8c588fb5dc7117190c0682842d7659bb3475e94102a42728957",
+      "bytes": 4858
     },
     {
       "path": "references/desktop-plugins.md",
@@ -122,9 +122,9 @@
     {
       "path": "references/troubleshooting.md",
       "mode": "100644",
-      "git_blob_sha": "b9f6bbda7aa74a9fc2a6ed43e631c4bb9a02f372",
-      "sha256": "39c191024846481a907b90ed01c3b8270fe4ce3d4aecb9e143236efbeb09a356",
-      "bytes": 3892
+      "git_blob_sha": "21aa0d0ebd11e48a10cbf4810c230ecaaeafc027",
+      "sha256": "14218d9990091694cf421f75ae6331de5ed9664bd5c2ae2d258a561c9d444a32",
+      "bytes": 4000
     },
     {
       "path": "references/tui-widgets.md",
@@ -136,9 +136,9 @@
     {
       "path": "references/webhooks.md",
       "mode": "100644",
-      "git_blob_sha": "912a51dce3cd62315a36c56b0a754146e3b543f0",
-      "sha256": "04e3a1ee2a6f7c9bea45ce9a8c2d092ead626867914fa18e4722777e2ffb4ef2",
-      "bytes": 9329
+      "git_blob_sha": "3a9725ec73145b409a31b4ea10d2361d2980b126",
+      "sha256": "0fbf8b1dd05fd9d7fce7c3ddfad9153ad35269809cc3070ff24b01966d16a428",
+      "bytes": 9418
     },
     {
       "path": "references/windows-quirks.md",
